@@ -3,7 +3,7 @@
     class="column gutter-md background"
     padding>
     <div class="column items-center">
-      <br-address-form />
+      <br-address-form v-model="addressForm" />
     </div>
   </q-page>
 </template>
@@ -19,7 +19,22 @@ export default {
   name: 'Home',
   components: {BrAddressForm},
   data() {
-    return {};
+    return {
+      addressForm: {
+        addressLocality: {
+          value: ''
+        },
+        addressRegion: {
+          value: ''
+        },
+        postalCode: {
+          value: ''
+        },
+        streetAddress: {
+          value: ''
+        }
+      }
+    };
   }
 };
 </script>
