@@ -2,9 +2,30 @@
   <q-page
     class="column gutter-md background"
     padding>
-    <div class="column items-center">
-      <br-address-form v-model="addressForm" />
-    </div>
+    <q-list class="column items-center">
+      <q-item>
+        All Countries
+      </q-item>
+      <q-item class="full-width">
+        <br-address-form v-model="allCountries" />
+      </q-item>
+      <q-item-separator />
+      <q-item>
+        Restrict Countries to USA and Canada
+      </q-item>
+      <q-item class="full-width">
+        <br-address-form
+          v-model="restrictCountries"
+          :restrict-country="['US', 'CA']" />
+      </q-item>
+      <q-item-separator />
+      <q-item>
+        USA Only
+      </q-item>
+      <q-item class="full-width">
+        <br-address-form v-model="usaOnly" />
+      </q-item>
+    </q-list>
   </q-page>
 </template>
 <script>
@@ -20,7 +41,43 @@ export default {
   components: {BrAddressForm},
   data() {
     return {
-      addressForm: {
+      usaOnly: {
+        addressLocality: {
+          value: ''
+        },
+        addressRegion: {
+          label: 'State',
+          value: ''
+        },
+        postalCode: {
+          label: 'ZIP',
+          value: ''
+        },
+        streetAddress: {
+          value: ''
+        }
+      },
+      restrictCountries: {
+        addressCountry: {
+          value: ''
+        },
+        addressLocality: {
+          value: ''
+        },
+        addressRegion: {
+          value: ''
+        },
+        postalCode: {
+          value: ''
+        },
+        streetAddress: {
+          value: ''
+        }
+      },
+      allCountries: {
+        addressCountry: {
+          value: ''
+        },
         addressLocality: {
           value: ''
         },
@@ -38,5 +95,8 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+.full-width {
+  width: 100%;
+}
 </style>
