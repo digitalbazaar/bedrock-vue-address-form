@@ -6,6 +6,7 @@
           v-model="streetAddress.value"
           :float-label="streetAddress.label"
           class="q-pa-sm q-mt-md"
+          autocomplete="address-line1"
           @blur="$v.streetAddress.$touch"
           @keyup="$v.streetAddress.$touch" />
       </q-field>
@@ -19,6 +20,7 @@
             v-model="addressLocality.value"
             :float-label="addressLocality.label"
             class="q-pa-sm q-mt-md"
+            autocomplete="address-level2"
             @blur="$v.addressLocality.$touch"
             @keyup="$v.addressLocality.$touch" />
         </q-field>
@@ -29,6 +31,7 @@
             v-model="postalCode.value"
             :float-label="postalCode.label"
             class="q-pa-sm q-mt-md"
+            autocomplete="postal-code"
             @blur="$v.postalCode.$touch"
             @keyup="$v.postalCode.$touch" />
         </q-field>
@@ -42,6 +45,7 @@
           v-model="addressLocality.value"
           :float-label="addressLocality.label"
           class="q-pa-sm q-mt-md"
+          autocomplete="address-level2"
           @blur="$v.addressLocality.$touch"
           @keyup="$v.addressLocality.$touch" />
       </q-field>
@@ -50,11 +54,27 @@
       v-if="addressCountryExists"
       class="row justify-between q-mt-md">
       <div class="col-sm-6 q-pr-md">
-        <q-field :error="$v.addressRegion.$error">
+        <q-field
+          v-if="regions.length > 0"
+          :error="$v.addressRegion.$error">
+          <q-select
+            v-model="addressRegion.value"
+            :float-label="addressRegion.label"
+            :options="regions"
+            filter
+            autofocus-filter
+            class="q-pa-sm q-mt-md fast-open"
+            @blur="$v.addressRegion.$touch"
+            @keyup="$v.addressRegion.$touch" />
+        </q-field>
+        <q-field
+          v-else
+          :error="$v.addressRegion.$error">
           <q-input
             v-model="addressRegion.value"
             :float-label="addressRegion.label"
             class="q-pa-sm q-mt-md"
+            autocomplete="address-level1"
             @blur="$v.addressRegion.$touch"
             @keyup="$v.addressRegion.$touch" />
         </q-field>
@@ -66,7 +86,8 @@
             :float-label="addressCountry.label"
             :options="countries"
             filter
-            class="q-pa-sm q-mt-md"
+            autofocus-filter
+            class="q-pa-sm q-mt-md fast-open"
             @blur="$v.addressCountry.$touch"
             @keyup="$v.addressCountry.$touch" />
         </q-field>
@@ -80,9 +101,10 @@
           <q-select
             v-model="addressRegion.value"
             :float-label="addressRegion.label"
-            :options="states"
+            :options="regions"
             filter
-            class="q-pa-sm q-mt-md"
+            autofocus-filter
+            class="q-pa-sm q-mt-md fast-open"
             @blur="$v.addressRegion.$touch"
             @keyup="$v.addressRegion.$touch" />
         </q-field>
@@ -93,6 +115,7 @@
             v-model="postalCode.value"
             :float-label="postalCode.label"
             class="q-pa-sm q-mt-md"
+            autocomplete="postal-code"
             @blur="$v.postalCode.$touch"
             @keyup="$v.postalCode.$touch" />
         </q-field>
@@ -107,9 +130,7 @@
 'use strict';
 
 import {minLength, required} from 'vuelidate/lib/validators';
-import rawCountryCodes from './countryCodes';
-import states from './states';
-
+import countryOptions from './countries';
 
 export default {
   name: 'BrAddressForm',
@@ -124,12 +145,6 @@ export default {
       required: false,
       default: () => ([])
     }
-  },
-  data() {
-    return {
-      rawCountryCodes,
-      states
-    };
   },
   validations() {
     if(this.addressCountryExists) {
@@ -194,26 +209,39 @@ export default {
     };
   },
   computed: {
+    regions() {
+      if(!this.addressCountryExists) {
+        return countryOptions
+          .find(c => c.value === 'US')
+          .children.map(region => ({label: region, value: region}));
+      }
+      const prefix = this.addressCountry.value;
+      const country = countryOptions.find(c => c.value === prefix);
+      if(!country) {
+        return [];
+      }
+      const regions = country.children;
+      return regions.map(region => ({label: region, value: region}));
+    },
     addressCountry() {
       return this.value.addressCountry || {};
     },
     addressCountryExists() {
       return this.isString(this.addressCountry.value);
     },
+    addressCountryValue() {
+      return this.addressCountry.value;
+    },
     addressLocality() {
       return this.value.addressLocality;
     },
     countries() {
-      let countries = this.rawCountryCodes.map(val => ({
-        label: val.country,
-        value: val.alpha2Code
-      }));
       if(this.restrictCountry.length > 0) {
-        countries = countries.filter(
+        return countryOptions.filter(
           ({value}) => this.restrictCountry.includes(value)
         );
       }
-      return countries;
+      return countryOptions.sort((a, b) => a.label.localeCompare(b.label));
     },
     addressRegion() {
       return this.value.addressRegion;
@@ -228,8 +256,42 @@ export default {
       return !this.$v.$invalid;
     }
   },
+  watch: {
+    addressCountryValue(val) {
+      let updatedLabels = this.value;
+      if(val === 'US') {
+        updatedLabels = _applyLabels({
+          data: this.value,
+          force: ['addressRegion', 'postalCode'],
+          labels: {
+            addressRegion: 'State',
+            postalCode: 'ZIP'
+          }
+        });
+      } else if(val === 'CA') {
+        updatedLabels = _applyLabels({
+          data: this.value,
+          force: ['addressRegion', 'postalCode'],
+          labels: {
+            addressRegion: 'Province',
+            postalCode: 'Postal Code'
+          }
+        });
+      } else {
+        updatedLabels = _applyLabels({
+          data: this.value,
+          force: ['addressRegion', 'postalCode'],
+          labels: {
+            addressRegion: 'State/Province/Region',
+            postalCode: 'ZIP/Postal Code',
+          }
+        });
+      }
+      this.$emit('input', updatedLabels);
+    }
+  },
   created() {
-    const updatedLabels = _applyDefaultLabels({
+    const updatedLabels = _applyLabels({
       data: this.value,
       labels: {
         addressCountry: 'Country',
@@ -248,13 +310,21 @@ export default {
   }
 };
 // TODO: Move to bedrock-web-forms
+/**
+ * @function isString
+ * @param {String} str
+ * @description checks if something is a string.
+ *
+ * @returns {Boolean}
+*/
 function isString(str) {
-  return str && typeof str === 'string';
+  return typeof str === 'string';
 }
 
-function _applyDefaultLabels({data, labels}) {
+// TODO: Move to bedrock-web-forms
+function _applyLabels({data, labels, force = []}) {
   return Object.keys(data).reduce((acc, key) => {
-    acc[key] = isString(data[key].label) ? data[key] :
+    acc[key] = isString(data[key].label) && !force.includes(key) ? data[key] :
       {
         ...data[key],
         label: labels[key]
@@ -263,5 +333,8 @@ function _applyDefaultLabels({data, labels}) {
   }, {});
 }
 </script>
-<style>
+<style scoped>
+div.fast-open {
+  transition-duration: 0.10s;
+}
 </style>
