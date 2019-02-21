@@ -1,0 +1,5 @@
+{
+  "username": "demo",
+  "include": ["iso", "children", "name"],
+  "filename": "countries.json"
+}
