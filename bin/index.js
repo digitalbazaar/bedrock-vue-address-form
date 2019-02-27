@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2019 Digital Bazaar, Inc. All rights reserved.
+ */
+'use strict';
+
 const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
