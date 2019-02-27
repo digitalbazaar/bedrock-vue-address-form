@@ -333,7 +333,7 @@ function _applyLabels({data, labels, force = []}) {
   }, {});
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 div.fast-open {
   transition-duration: 0.10s;
 }

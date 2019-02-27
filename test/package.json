@@ -4,7 +4,6 @@
   "description": "Vue.js address form component for Bedrock Web apps test",
   "private": true,
   "main": "index.js",
-  "less": "app.less",
   "scripts": {
     "start": "node --preserve-symlinks test.js",
     "test": "node --preserve-symlinks test.js test --framework karma",
