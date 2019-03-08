@@ -1,10 +1,14 @@
 # bedrock-vue-address-form ChangeLog
 
-## 2.0.0 - xxxxx
+## 2.0.0 - 2019-03-08
+
+### Added
+- Add `fields` as a prop to the API.
 
 ### Changed
-
 - **BREAKING**: Require `addressCountry` for address form.
+- **BREAKING**: Simplify model to use key+string value pairs
+  rather than `value` + `label` (moved these into `fields` API).
 
 ## 1.0.0 - 2019-02-27
 
