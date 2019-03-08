@@ -1,53 +1,53 @@
 <template>
   <div class="fit">
     <div class="q-mt-md">
-      <q-field :error="$v.streetAddress.$error">
+      <q-field :error="$v.value.streetAddress.$error">
         <q-input
-          v-model="streetAddress.value"
-          :float-label="streetAddress.label"
+          v-model="value.streetAddress"
+          :float-label="streetAddressLabel"
           class="q-pa-sm q-mt-md"
           autocomplete="address-line1"
-          @blur="$v.streetAddress.$touch"
-          @keyup="$v.streetAddress.$touch" />
+          @blur="$v.value.streetAddress.$touch"
+          @keyup="$v.value.streetAddress.$touch" />
       </q-field>
     </div>
     <div
       v-if="addressCountryExists"
       class="row justify-between q-mt-md">
       <div class="col-sm-8 q-pr-md">
-        <q-field :error="$v.addressLocality.$error">
+        <q-field :error="$v.value.addressLocality.$error">
           <q-input
-            v-model="addressLocality.value"
-            :float-label="addressLocality.label"
+            v-model="value.addressLocality"
+            :float-label="addressLocalityLabel"
             class="q-pa-sm q-mt-md"
             autocomplete="address-level2"
-            @blur="$v.addressLocality.$touch"
-            @keyup="$v.addressLocality.$touch" />
+            @blur="$v.value.addressLocality.$touch"
+            @keyup="$v.value.addressLocality.$touch" />
         </q-field>
       </div>
       <div class="col-sm-4">
-        <q-field :error="$v.postalCode.$error">
+        <q-field :error="$v.value.postalCode.$error">
           <q-input
-            v-model="postalCode.value"
-            :float-label="postalCode.label"
+            v-model="value.postalCode"
+            :float-label="postalCodeLabel"
             class="q-pa-sm q-mt-md"
             autocomplete="postal-code"
-            @blur="$v.postalCode.$touch"
-            @keyup="$v.postalCode.$touch" />
+            @blur="$v.value.postalCode.$touch"
+            @keyup="$v.value.postalCode.$touch" />
         </q-field>
       </div>
     </div>
     <div
       v-else
       class="q-mt-md">
-      <q-field :error="$v.addressLocality.$error">
+      <q-field :error="$v.value.addressLocality.$error">
         <q-input
-          v-model="addressLocality.value"
-          :float-label="addressLocality.label"
+          v-model="value.addressLocality"
+          :float-label="addressLocalityLabel"
           class="q-pa-sm q-mt-md"
           autocomplete="address-level2"
-          @blur="$v.addressLocality.$touch"
-          @keyup="$v.addressLocality.$touch" />
+          @blur="$v.value.addressLocality.$touch"
+          @keyup="$v.value.addressLocality.$touch" />
       </q-field>
     </div>
     <div
@@ -56,40 +56,40 @@
       <div class="col-sm-6 q-pr-md">
         <q-field
           v-if="regions.length > 0"
-          :error="$v.addressRegion.$error">
+          :error="$v.value.addressRegion.$error">
           <q-select
-            v-model="addressRegion.value"
-            :float-label="addressRegion.label"
+            v-model="value.addressRegion"
+            :float-label="addressRegionLabel"
             :options="regions"
             filter
             autofocus-filter
             class="q-pa-sm q-mt-md fast-open"
-            @blur="$v.addressRegion.$touch"
-            @keyup="$v.addressRegion.$touch" />
+            @blur="$v.value.addressRegion.$touch"
+            @keyup="$v.value.addressRegion.$touch" />
         </q-field>
         <q-field
           v-else
-          :error="$v.addressRegion.$error">
+          :error="$v.value.addressRegion.$error">
           <q-input
-            v-model="addressRegion.value"
-            :float-label="addressRegion.label"
+            v-model="value.addressRegion"
+            :float-label="addressRegionLabel"
             class="q-pa-sm q-mt-md"
             autocomplete="address-level1"
-            @blur="$v.addressRegion.$touch"
-            @keyup="$v.addressRegion.$touch" />
+            @blur="$v.value.addressRegion.$touch"
+            @keyup="$v.value.addressRegion.$touch" />
         </q-field>
       </div>
       <div class="col-sm-6">
-        <q-field :error="$v.addressCountry.$error">
+        <q-field :error="$v.value.addressCountry.$error">
           <q-select
-            v-model="addressCountry.value"
-            :float-label="addressCountry.label"
+            v-model="value.addressCountry"
+            :float-label="addressCountryLabel"
             :options="countries"
             filter
             autofocus-filter
             class="q-pa-sm q-mt-md fast-open"
-            @blur="$v.addressCountry.$touch"
-            @keyup="$v.addressCountry.$touch" />
+            @blur="$v.value.addressCountry.$touch"
+            @keyup="$v.value.addressCountry.$touch" />
         </q-field>
       </div>
     </div>
@@ -97,27 +97,27 @@
       v-else
       class="row justify-between q-mt-md">
       <div class="col-sm-6 q-pr-md">
-        <q-field :error="$v.addressRegion.$error">
+        <q-field :error="$v.value.addressRegion.$error">
           <q-select
-            v-model="addressRegion.value"
-            :float-label="addressRegion.label"
+            v-model="value.addressRegion"
+            :float-label="addressRegionLabel"
             :options="regions"
             filter
             autofocus-filter
             class="q-pa-sm q-mt-md fast-open"
-            @blur="$v.addressRegion.$touch"
-            @keyup="$v.addressRegion.$touch" />
+            @blur="$v.value.addressRegion.$touch"
+            @keyup="$v.value.addressRegion.$touch" />
         </q-field>
       </div>
       <div class="col-sm-6">
-        <q-field :error="$v.postalCode.$error">
+        <q-field :error="$v.value.postalCode.$error">
           <q-input
-            v-model="postalCode.value"
-            :float-label="postalCode.label"
+            v-model="value.postalCode"
+            :float-label="postalCodeLabel"
             class="q-pa-sm q-mt-md"
             autocomplete="postal-code"
-            @blur="$v.postalCode.$touch"
-            @keyup="$v.postalCode.$touch" />
+            @blur="$v.value.postalCode.$touch"
+            @keyup="$v.value.postalCode.$touch" />
         </q-field>
       </div>
     </div>
@@ -140,6 +140,11 @@ export default {
       required: true,
       default: () => ({})
     },
+    fields: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    },
     restrictCountry: {
       type: Object,
       required: false,
@@ -149,32 +154,24 @@ export default {
   validations() {
     if(this.addressCountryExists) {
       return {
-        addressCountry: {
-          value: {
+        value: {
+          addressCountry: {
             minLength: minLength(1),
             required
-          }
-        },
-        addressLocality: {
-          value: {
+          },
+          addressLocality: {
             minLength: minLength(1),
             required
-          }
-        },
-        addressRegion: {
-          value: {
+          },
+          addressRegion: {
             minLength: minLength(1),
             required
-          }
-        },
-        postalCode: {
-          value: {
+          },
+          postalCode: {
             minLength: minLength(1),
             required
-          }
-        },
-        streetAddress: {
-          value: {
+          },
+          streetAddress: {
             minLength: minLength(1),
             required
           }
@@ -182,26 +179,20 @@ export default {
       };
     }
     return {
-      addressLocality: {
-        value: {
+      value: {
+        addressLocality: {
           minLength: minLength(1),
           required
-        }
-      },
-      addressRegion: {
-        value: {
+        },
+        addressRegion: {
           minLength: minLength(1),
           required
-        }
-      },
-      postalCode: {
-        value: {
+        },
+        postalCode: {
           minLength: minLength(1),
           required
-        }
-      },
-      streetAddress: {
-        value: {
+        },
+        streetAddress: {
           minLength: minLength(1),
           required
         }
@@ -215,7 +206,7 @@ export default {
           .find(c => c.value === 'US')
           .children.map(region => ({label: region, value: region}));
       }
-      const prefix = this.addressCountry.value;
+      const prefix = this.value.addressCountry;
       const country = countryOptions.find(c => c.value === prefix);
       if(!country) {
         return [];
@@ -224,16 +215,22 @@ export default {
       return regions.map(region => ({label: region, value: region}));
     },
     addressCountry() {
-      return this.value.addressCountry || {};
+      return this.value.addressCountry;
+    },
+    addressCountryLabel() {
+      return this.addressCountryOptions.label || 'Country';
+    },
+    addressCountryOptions() {
+      return this.fields.addressCountry || {};
     },
     addressCountryExists() {
-      return this.isString(this.addressCountry.value);
+      return this.isString(this.addressCountry);
     },
-    addressCountryValue() {
-      return this.addressCountry.value;
+    addressLocalityLabel() {
+      return this.addressLocalityOptions.label || 'City';
     },
-    addressLocality() {
-      return this.value.addressLocality;
+    addressLocalityOptions() {
+      return this.fields.addressLocality || {};
     },
     countries() {
       if(this.restrictCountry.length > 0) {
@@ -243,65 +240,46 @@ export default {
       }
       return countryOptions.sort((a, b) => a.label.localeCompare(b.label));
     },
-    addressRegion() {
-      return this.value.addressRegion;
+    addressRegionLabel() {
+      const provinceCountries = ['CA'];
+      const stateCountries = ['US'];
+      const regionCountries = [];
+      let defaultLabel = 'State/Province/Region';
+
+      if(provinceCountries.includes(this.addressCountry)) {
+        defaultLabel = 'Province';
+      } else if(stateCountries.includes(this.addressCountry)) {
+        defaultLabel = 'State';
+      } else if(regionCountries.includes(this.addressCountry)) {
+        defaultLabel = 'Region';
+      }
+      return this.addressRegionOptions.label || defaultLabel;
     },
-    postalCode() {
-      return this.value.postalCode;
+    addressRegionOptions() {
+      return this.fields.addressRegion || {};
     },
-    streetAddress() {
-      return this.value.streetAddress;
+    postalCodeLabel() {
+      let defaultLabel = 'ZIP/Postal Code';
+
+      if(this.addressCountry === 'US') {
+        defaultLabel = 'ZIP';
+      } else if(this.addressCountry !== '') {
+        defaultLabel = 'Postal Code';
+      }
+      return this.postalCodeOptions.label || defaultLabel;
+    },
+    postalCodeOptions() {
+      return this.fields.postalCode || {};
+    },
+    streetAddressLabel() {
+      return this.streetAddressOptions.label || 'Street Address';
+    },
+    streetAddressOptions() {
+      return this.fields.streetAddress || {};
     },
     valid() {
-      return !this.$v.$invalid;
+      return !this.$v.value.$invalid;
     }
-  },
-  watch: {
-    addressCountryValue(val) {
-      let updatedLabels = this.value;
-      if(val === 'US') {
-        updatedLabels = _applyLabels({
-          data: this.value,
-          force: ['addressRegion', 'postalCode'],
-          labels: {
-            addressRegion: 'State',
-            postalCode: 'ZIP'
-          }
-        });
-      } else if(val === 'CA') {
-        updatedLabels = _applyLabels({
-          data: this.value,
-          force: ['addressRegion', 'postalCode'],
-          labels: {
-            addressRegion: 'Province',
-            postalCode: 'Postal Code'
-          }
-        });
-      } else {
-        updatedLabels = _applyLabels({
-          data: this.value,
-          force: ['addressRegion', 'postalCode'],
-          labels: {
-            addressRegion: 'State/Province/Region',
-            postalCode: 'ZIP/Postal Code',
-          }
-        });
-      }
-      this.$emit('input', updatedLabels);
-    }
-  },
-  created() {
-    const updatedLabels = _applyLabels({
-      data: this.value,
-      labels: {
-        addressCountry: 'Country',
-        addressLocality: 'City',
-        addressRegion: 'State/Province/Region',
-        postalCode: 'ZIP/Postal Code',
-        streetAddress: 'Street Address'
-      }
-    });
-    this.$emit('input', updatedLabels);
   },
   methods: {
     isString(str) {
@@ -319,18 +297,6 @@ export default {
 */
 function isString(str) {
   return typeof str === 'string';
-}
-
-// TODO: Move to bedrock-web-forms
-function _applyLabels({data, labels, force = []}) {
-  return Object.keys(data).reduce((acc, key) => {
-    acc[key] = isString(data[key].label) && !force.includes(key) ? data[key] :
-      {
-        ...data[key],
-        label: labels[key]
-      };
-    return acc;
-  }, {});
 }
 </script>
 <style scoped>
