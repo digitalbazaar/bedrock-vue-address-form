@@ -4,26 +4,22 @@
     padding>
     <q-list class="column items-center">
       <q-item>
-        All Countries
-      </q-item>
-      <q-item class="full-width">
-        <br-address-form v-model="allCountries" />
-      </q-item>
-      <q-item-separator />
-      <q-item>
         Restrict Countries to USA and Canada
       </q-item>
       <q-item class="full-width">
         <br-address-form
-          v-model="restrictCountries"
+          v-model="restrictCountries.model"
+          :fields="restrictCountries.fields"
           :restrict-country="['US', 'CA']" />
       </q-item>
       <q-item-separator />
       <q-item>
-        USA Only
+        All Countries
       </q-item>
       <q-item class="full-width">
-        <br-address-form v-model="usaOnly" />
+        <br-address-form
+          v-model="allCountries.model"
+          :fields="allCountries.fields" />
       </q-item>
     </q-list>
   </q-page>
@@ -41,54 +37,40 @@ export default {
   components: {BrAddressForm},
   data() {
     return {
-      usaOnly: {
-        addressLocality: {
-          value: ''
-        },
-        addressRegion: {
-          label: 'State',
-          value: ''
-        },
-        postalCode: {
-          label: 'ZIP',
-          value: ''
-        },
-        streetAddress: {
-          value: ''
-        }
-      },
       restrictCountries: {
-        addressCountry: {
-          value: ''
+        model: {
+          addressCountry: '',
+          addressLocality: '',
+          addressRegion: '',
+          postalCode: '',
+          streetAddress: ''
         },
-        addressLocality: {
-          value: ''
-        },
-        addressRegion: {
-          value: ''
-        },
-        postalCode: {
-          value: ''
-        },
-        streetAddress: {
-          value: ''
-        }
+        fields: {}
       },
       allCountries: {
-        addressCountry: {
-          value: ''
+        model: {
+          addressCountry: '',
+          addressLocality: '',
+          addressRegion: '',
+          postalCode: '',
+          streetAddress: ''
         },
-        addressLocality: {
-          value: ''
-        },
-        addressRegion: {
-          value: ''
-        },
-        postalCode: {
-          value: ''
-        },
-        streetAddress: {
-          value: ''
+        fields: {
+          addressCountry: {
+            label: 'Country'
+          },
+          addressLocality: {
+            label: 'City'
+          },
+          addressRegion: {
+            label: 'Region'
+          },
+          postalCode: {
+            label: 'Postal Code'
+          },
+          streetAddress: {
+            label: 'Street'
+          }
         }
       }
     };

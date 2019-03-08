@@ -1,6 +1,5 @@
 <template>
   <q-layout>
-
     <q-layout-header>
       <q-toolbar>
         <q-toolbar-title>
@@ -10,12 +9,10 @@
     </q-layout-header>
 
     <q-page-container>
-      <router-view/>
+      <router-view />
     </q-page-container>
 
-    <q-layout-footer>
-    </q-layout-footer>
-
+    <q-layout-footer />
   </q-layout>
 </template>
 <script>
