@@ -1,124 +1,139 @@
 <template>
   <div class="fit">
     <div class="q-mt-md">
-      <q-field :error="$v.value.streetAddress.$error">
-        <q-input
-          v-model="value.streetAddress"
-          :float-label="streetAddressLabel"
-          class="q-pa-sm q-mt-md"
-          autocomplete="address-line1"
-          @blur="$v.value.streetAddress.$touch"
-          @keyup="$v.value.streetAddress.$touch" />
-      </q-field>
+      <q-input
+        v-model="value.streetAddress"
+        :error="$v.value.streetAddress.$error"
+        :label="streetAddressLabel"
+        class="q-pa-sm q-mt-md"
+        autocomplete="address-line1"
+        @blur="$v.value.streetAddress.$touch"
+        @keyup="$v.value.streetAddress.$touch" />
     </div>
     <div
       v-if="addressCountryExists"
       class="row justify-between q-mt-md">
       <div class="col-sm-8 q-pr-md">
-        <q-field :error="$v.value.addressLocality.$error">
-          <q-input
-            v-model="value.addressLocality"
-            :float-label="addressLocalityLabel"
-            class="q-pa-sm q-mt-md"
-            autocomplete="address-level2"
-            @blur="$v.value.addressLocality.$touch"
-            @keyup="$v.value.addressLocality.$touch" />
-        </q-field>
+        <q-input
+          v-model="value.addressLocality"
+          :error="$v.value.addressLocality.$error"
+          :label="addressLocalityLabel"
+          class="q-pa-sm q-mt-md"
+          autocomplete="address-level2"
+          @blur="$v.value.addressLocality.$touch"
+          @keyup="$v.value.addressLocality.$touch" />
       </div>
       <div class="col-sm-4">
-        <q-field :error="$v.value.postalCode.$error">
-          <q-input
-            v-model="value.postalCode"
-            :float-label="postalCodeLabel"
-            class="q-pa-sm q-mt-md"
-            autocomplete="postal-code"
-            @blur="$v.value.postalCode.$touch"
-            @keyup="$v.value.postalCode.$touch" />
-        </q-field>
+        <q-input
+          v-model="value.postalCode"
+          :error="$v.value.postalCode.$error"
+          :label="postalCodeLabel"
+          class="q-pa-sm q-mt-md"
+          autocomplete="postal-code"
+          @blur="$v.value.postalCode.$touch"
+          @keyup="$v.value.postalCode.$touch" />
       </div>
     </div>
     <div
       v-else
       class="q-mt-md">
-      <q-field :error="$v.value.addressLocality.$error">
-        <q-input
-          v-model="value.addressLocality"
-          :float-label="addressLocalityLabel"
-          class="q-pa-sm q-mt-md"
-          autocomplete="address-level2"
-          @blur="$v.value.addressLocality.$touch"
-          @keyup="$v.value.addressLocality.$touch" />
-      </q-field>
+      <q-input
+        v-model="value.addressLocality"
+        :error="$v.value.addressLocality.$error"
+        :label="addressLocalityLabel"
+        class="q-pa-sm q-mt-md"
+        autocomplete="address-level2"
+        @blur="$v.value.addressLocality.$touch"
+        @keyup="$v.value.addressLocality.$touch" />
     </div>
     <div
       v-if="addressCountryExists"
       class="row justify-between q-mt-md">
       <div class="col-sm-6 q-pr-md">
-        <q-field
+        <q-select
           v-if="regions.length > 0"
-          :error="$v.value.addressRegion.$error">
-          <q-select
-            v-model="value.addressRegion"
-            :float-label="addressRegionLabel"
-            :options="regions"
-            filter
-            autofocus-filter
-            class="q-pa-sm q-mt-md fast-open"
-            @blur="$v.value.addressRegion.$touch"
-            @keyup="$v.value.addressRegion.$touch" />
-        </q-field>
-        <q-field
+          v-model="value.addressRegion"
+          :error="$v.value.addressRegion.$error"
+          :label="addressRegionLabel"
+          :options="regions"
+          emit-value
+          map-options
+          class="q-pa-sm q-mt-md fast-open"
+          @blur="$v.value.addressRegion.$touch"
+          @keyup="$v.value.addressRegion.$touch">
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+        <q-input
           v-else
-          :error="$v.value.addressRegion.$error">
-          <q-input
-            v-model="value.addressRegion"
-            :float-label="addressRegionLabel"
-            class="q-pa-sm q-mt-md"
-            autocomplete="address-level1"
-            @blur="$v.value.addressRegion.$touch"
-            @keyup="$v.value.addressRegion.$touch" />
-        </q-field>
+          v-model="value.addressRegion"
+          :error="$v.value.addressRegion.$error"
+          :label="addressRegionLabel"
+          class="q-pa-sm q-mt-md"
+          autocomplete="address-level1"
+          @blur="$v.value.addressRegion.$touch"
+          @keyup="$v.value.addressRegion.$touch" />
       </div>
       <div class="col-sm-6">
-        <q-field :error="$v.value.addressCountry.$error">
-          <q-select
-            v-model="value.addressCountry"
-            :float-label="addressCountryLabel"
-            :options="countries"
-            filter
-            autofocus-filter
-            class="q-pa-sm q-mt-md fast-open"
-            @blur="$v.value.addressCountry.$touch"
-            @keyup="$v.value.addressCountry.$touch" />
-        </q-field>
+        <q-select
+          v-model="value.addressCountry"
+          :error="$v.value.addressCountry.$error"
+          :label="addressCountryLabel"
+          :options="countries"
+          emit-value
+          map-options
+          input-debounce="0"
+          class="q-pa-sm q-mt-md fast-open"
+          @blur="$v.value.addressCountry.$touch"
+          @keyup="$v.value.addressCountry.$touch">
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
     </div>
     <div
       v-else
       class="row justify-between q-mt-md">
       <div class="col-sm-6 q-pr-md">
-        <q-field :error="$v.value.addressRegion.$error">
-          <q-select
-            v-model="value.addressRegion"
-            :float-label="addressRegionLabel"
-            :options="regions"
-            filter
-            autofocus-filter
-            class="q-pa-sm q-mt-md fast-open"
-            @blur="$v.value.addressRegion.$touch"
-            @keyup="$v.value.addressRegion.$touch" />
-        </q-field>
+        <q-select
+          v-model="value.addressRegion"
+          :error="$v.value.addressRegion.$error"
+          :label="addressRegionLabel"
+          :options="regions"
+          emit-value
+          map-options
+          input-debounce="0"
+          class="q-pa-sm q-mt-md fast-open"
+          @blur="$v.value.addressRegion.$touch"
+          @keyup="$v.value.addressRegion.$touch">
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
       <div class="col-sm-6">
-        <q-field :error="$v.value.postalCode.$error">
-          <q-input
-            v-model="value.postalCode"
-            :float-label="postalCodeLabel"
-            class="q-pa-sm q-mt-md"
-            autocomplete="postal-code"
-            @blur="$v.value.postalCode.$touch"
-            @keyup="$v.value.postalCode.$touch" />
-        </q-field>
+        <q-input
+          v-model="value.postalCode"
+          :error="$v.value.postalCode.$error"
+          :label="postalCodeLabel"
+          class="q-pa-sm q-mt-md"
+          autocomplete="postal-code"
+          @blur="$v.value.postalCode.$touch"
+          @keyup="$v.value.postalCode.$touch" />
       </div>
     </div>
   </div>
@@ -150,6 +165,14 @@ export default {
       required: false,
       default: () => ([])
     }
+  },
+  data() {
+    return {
+      filter: {
+        countries: '',
+        regions: ''
+      }
+    };
   },
   validations() {
     if(this.addressCountryExists) {
@@ -201,6 +224,7 @@ export default {
   },
   computed: {
     regions() {
+      const filter = this.filter.regions;
       if(!this.addressCountryExists) {
         return countryOptions
           .find(c => c.value === 'US')
@@ -211,8 +235,15 @@ export default {
       if(!country) {
         return [];
       }
-      const regions = country.children;
-      return regions.map(region => ({label: region, value: region}));
+      const regions = country.children.map(
+        region => ({label: region, value: region})
+      );
+
+      if(filter) {
+        return regions
+          .filter(({label}) => label.toLowerCase().indexOf(filter) > -1);
+      }
+      return regions;
     },
     addressCountry() {
       return this.value.addressCountry;
@@ -233,12 +264,20 @@ export default {
       return this.fields.addressLocality || {};
     },
     countries() {
+      const filter = this.filter.countries;
+      let options = countryOptions.sort(
+        (a, b) => a.label.localeCompare(b.label)
+      );
       if(this.restrictCountry.length > 0) {
-        return countryOptions.filter(
+        options = options.filter(
           ({value}) => this.restrictCountry.includes(value)
         );
       }
-      return countryOptions.sort((a, b) => a.label.localeCompare(b.label));
+      if(filter) {
+        return options
+          .filter(({label}) => label.toLowerCase().indexOf(filter) > -1);
+      }
+      return options;
     },
     addressRegionLabel() {
       const provinceCountries = ['CA'];
@@ -284,6 +323,32 @@ export default {
   methods: {
     isString(str) {
       return isString(str);
+    },
+    countryFilter(val, done, abort) {
+      // reset addressCountry and the countries filter
+      this.value.addressCountry = '';
+      this.filter.countries = '';
+
+      if(val.length < 1) {
+        done();
+        return;
+      }
+      done(() => {
+        this.filter.countries = val.toLowerCase();
+      });
+    },
+    regionFilter(val, done, abort) {
+      // reset addressRegion and the regions filter
+      this.value.addressRegion = '';
+      this.filter.regions = '';
+
+      if(val.length < 1) {
+        done();
+        return;
+      }
+      done(() => {
+        this.filter.regions = val.toLowerCase();
+      });
     }
   }
 };
