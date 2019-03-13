@@ -12,7 +12,7 @@
           :fields="restrictCountries.fields"
           :restrict-country="['US', 'CA']" />
       </q-item>
-      <q-item-separator />
+      <q-separator />
       <q-item>
         All Countries
       </q-item>
