@@ -59,16 +59,7 @@
           emit-value
           map-options
           class="q-pa-sm q-mt-md fast-open"
-          @blur="$v.value.addressRegion.$touch"
-          @keyup="$v.value.addressRegion.$touch">
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
+          @input="$v.value.addressRegion.$touch" />
         <q-input
           v-else
           v-model="value.addressRegion"
@@ -89,16 +80,7 @@
           map-options
           input-debounce="0"
           class="q-pa-sm q-mt-md fast-open"
-          @blur="$v.value.addressCountry.$touch"
-          @keyup="$v.value.addressCountry.$touch">
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
+          @input="$v.value.addressCountry.$touch" />
       </div>
     </div>
     <div
@@ -112,18 +94,8 @@
           :options="regions"
           emit-value
           map-options
-          input-debounce="0"
           class="q-pa-sm q-mt-md fast-open"
-          @blur="$v.value.addressRegion.$touch"
-          @keyup="$v.value.addressRegion.$touch">
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
+          @input="$v.value.addressRegion.$touch" />
       </div>
       <div class="col-sm-6">
         <q-input
@@ -165,14 +137,6 @@ export default {
       required: false,
       default: () => ([])
     }
-  },
-  data() {
-    return {
-      filter: {
-        countries: '',
-        regions: ''
-      }
-    };
   },
   validations() {
     if(this.addressCountryExists) {
@@ -224,7 +188,6 @@ export default {
   },
   computed: {
     regions() {
-      const filter = this.filter.regions;
       if(!this.addressCountryExists) {
         return countryOptions
           .find(c => c.value === 'US')
@@ -238,11 +201,6 @@ export default {
       const regions = country.children.map(
         region => ({label: region, value: region})
       );
-
-      if(filter) {
-        return regions
-          .filter(({label}) => label.toLowerCase().indexOf(filter) > -1);
-      }
       return regions;
     },
     addressCountry() {
@@ -264,7 +222,6 @@ export default {
       return this.fields.addressLocality || {};
     },
     countries() {
-      const filter = this.filter.countries;
       let options = countryOptions.sort(
         (a, b) => a.label.localeCompare(b.label)
       );
@@ -272,10 +229,6 @@ export default {
         options = options.filter(
           ({value}) => this.restrictCountry.includes(value)
         );
-      }
-      if(filter) {
-        return options
-          .filter(({label}) => label.toLowerCase().indexOf(filter) > -1);
       }
       return options;
     },
@@ -324,32 +277,6 @@ export default {
     isString(str) {
       return isString(str);
     },
-    countryFilter(val, done, abort) {
-      // reset addressCountry and the countries filter
-      this.value.addressCountry = '';
-      this.filter.countries = '';
-
-      if(val.length < 1) {
-        done();
-        return;
-      }
-      done(() => {
-        this.filter.countries = val.toLowerCase();
-      });
-    },
-    regionFilter(val, done, abort) {
-      // reset addressRegion and the regions filter
-      this.value.addressRegion = '';
-      this.filter.regions = '';
-
-      if(val.length < 1) {
-        done();
-        return;
-      }
-      done(() => {
-        this.filter.regions = val.toLowerCase();
-      });
-    }
   }
 };
 // TODO: Move to bedrock-web-forms
