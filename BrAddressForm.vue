@@ -78,9 +78,8 @@
           :options="countries"
           emit-value
           map-options
-          input-debounce="0"
           class="q-pa-sm q-mt-md fast-open"
-          @input="$v.value.addressCountry.$touch" />
+          @input="resetRegionErrors" />
       </div>
     </div>
     <div
@@ -274,6 +273,12 @@ export default {
     }
   },
   methods: {
+    resetRegionErrors() {
+      this.$v.value.addressCountry.$touch();
+      if(this.$v.value.addressRegion.$invalid && this.regions) {
+        this.$v.value.addressRegion.$reset();
+      }
+    },
     isString(str) {
       return isString(str);
     },
