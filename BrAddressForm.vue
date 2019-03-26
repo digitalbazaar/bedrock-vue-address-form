@@ -13,7 +13,7 @@
     <div
       v-if="addressCountryExists"
       class="row justify-between q-mt-md">
-      <div class="col-sm-8 q-pr-md">
+      <div class="col-sm-8 q-pr-md address-locality">
         <q-input
           v-model="value.addressLocality"
           :error="$v.value.addressLocality.$error"
@@ -23,7 +23,7 @@
           @blur="$v.value.addressLocality.$touch"
           @keyup="$v.value.addressLocality.$touch" />
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 postal-code">
         <q-input
           v-model="value.postalCode"
           :error="$v.value.postalCode.$error"
@@ -36,7 +36,7 @@
     </div>
     <div
       v-else
-      class="q-mt-md">
+      class="q-mt-md address-locality">
       <q-input
         v-model="value.addressLocality"
         :error="$v.value.addressLocality.$error"
@@ -49,7 +49,7 @@
     <div
       v-if="addressCountryExists"
       class="row justify-between q-mt-md">
-      <div class="col-sm-6 q-pr-md">
+      <div class="col-sm-6 q-pr-md address-region">
         <q-select
           v-if="regions.length > 0"
           v-model="value.addressRegion"
@@ -70,7 +70,7 @@
           @blur="$v.value.addressRegion.$touch"
           @keyup="$v.value.addressRegion.$touch" />
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6 address-country">
         <q-select
           v-model="value.addressCountry"
           :error="$v.value.addressCountry.$error"
@@ -85,7 +85,7 @@
     <div
       v-else
       class="row justify-between q-mt-md">
-      <div class="col-sm-6 q-pr-md">
+      <div class="col-sm-6 q-pr-md address-region">
         <q-select
           v-model="value.addressRegion"
           :error="$v.value.addressRegion.$error"
@@ -96,7 +96,7 @@
           class="q-pa-sm q-mt-md fast-open"
           @input="$v.value.addressRegion.$touch" />
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6 postal-code">
         <q-input
           v-model="value.postalCode"
           :error="$v.value.postalCode.$error"
@@ -296,8 +296,26 @@ function isString(str) {
   return typeof str === 'string';
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+
 div.fast-open {
   transition-duration: 0.10s;
 }
+
+/* Media Queries - Need to replace media queries in future
+with a better solution */
+@media screen and (max-width: 767px) {
+
+  .address-locality,
+  .address-region {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .address-country,
+  .postal-code {
+    width: 100%;
+  }
+}
+
 </style>
