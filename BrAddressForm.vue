@@ -72,14 +72,26 @@
       </div>
       <div class="col-sm-6 address-country">
         <q-select
+          ref="countrySelector"
           v-model="value.addressCountry"
           :error="$v.value.addressCountry.$error"
           :label="addressCountryLabel"
           :options="countries"
           emit-value
           map-options
+          use-input
+          input-debounce="0"
           class="q-pa-sm q-mt-md fast-open"
-          @input="resetRegionErrors" />
+          @filter="filterCountries"
+          @input="handleSelect">
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
     </div>
     <div
@@ -136,6 +148,13 @@ export default {
       required: false,
       default: () => ([])
     }
+  },
+  data() {
+    return {
+      filter: {
+        countries: ''
+      }
+    };
   },
   validations() {
     if(this.addressCountryExists) {
@@ -221,6 +240,7 @@ export default {
       return this.fields.addressLocality || {};
     },
     countries() {
+      const filter = this.filter.countries;
       let options = countryOptions.sort(
         (a, b) => a.label.localeCompare(b.label)
       );
@@ -228,6 +248,10 @@ export default {
         options = options.filter(
           ({value}) => this.restrictCountry.includes(value)
         );
+      }
+      if(filter) {
+        return options
+          .filter(({label}) => label.toLowerCase().indexOf(filter) > -1);
       }
       return options;
     },
@@ -273,7 +297,20 @@ export default {
     }
   },
   methods: {
-    resetRegionErrors() {
+    async filterCountries(val, update, abort) {
+      this.$v.value.addressCountry.$reset();
+      this.value.addressCountry = '';
+      this.filter.countries = '';
+      if(val.length < 1 ) {
+        return update();
+      }
+      return update(() => {
+        this.filter.countries = val.toLowerCase();
+      });      
+    },
+    handleSelect() {
+      // the default behavior in the beta is to leave the input focused on select.
+      this.$refs.countrySelector.$el.querySelector('input').blur();
       this.$v.value.addressCountry.$touch();
       if(this.$v.value.addressRegion.$invalid && this.regions) {
         this.$v.value.addressRegion.$reset();
