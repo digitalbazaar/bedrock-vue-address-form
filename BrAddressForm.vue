@@ -156,6 +156,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.filterInput.setAttribute('autocomplete', 'new-address');
+  },
   validations() {
     if(this.addressCountryExists) {
       return {
@@ -294,10 +297,13 @@ export default {
     },
     valid() {
       return !this.$v.value.$invalid;
+    },
+    filterInput() {
+      return this.$refs.countrySelector.$el.querySelector('input');
     }
   },
   methods: {
-    async filterCountries(val, update, abort) {
+    async filterCountries(val, update) {
       this.$v.value.addressCountry.$reset();
       this.value.addressCountry = '';
       this.filter.countries = '';
@@ -310,7 +316,7 @@ export default {
     },
     handleSelect() {
       // the default behavior in the beta is to leave the input focused on select.
-      this.$refs.countrySelector.$el.querySelector('input').blur();
+      this.filterInput.blur();
       this.$v.value.addressCountry.$touch();
       if(this.$v.value.addressRegion.$invalid && this.regions) {
         this.$v.value.addressRegion.$reset();
