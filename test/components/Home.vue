@@ -1,6 +1,6 @@
 <template>
   <q-page
-    class="column gutter-md background"
+    class="column q-col-gutter-md background"
     padding>
     <q-list class="column items-center">
       <q-item>
