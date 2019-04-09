@@ -1,6 +1,6 @@
 # bedrock-vue-address-form ChangeLog
 
-## 3.0.0 -
+## 3.0.0 - 2019-04-09
 
 ### Removed
 - Remove components deprecated by the Quasar upgrade such as q-field.
