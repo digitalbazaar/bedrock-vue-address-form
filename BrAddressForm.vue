@@ -304,6 +304,8 @@ export default {
   },
   methods: {
     async filterCountries(val, update) {
+      this.filterInput.style.display = 'inline-block';
+      this.filterInput.focus();
       this.$v.value.addressCountry.$reset();
       this.value.addressCountry = '';
       this.filter.countries = '';
@@ -312,11 +314,13 @@ export default {
       }
       return update(() => {
         this.filter.countries = val.toLowerCase();
-      });      
+      });
     },
     handleSelect() {
       // the default behavior in the beta is to leave the input focused on select.
+      this.filter.countries = '';
       this.filterInput.blur();
+      this.filterInput.style.display = 'none';
       this.$v.value.addressCountry.$touch();
       if(this.$v.value.addressRegion.$invalid && this.regions) {
         this.$v.value.addressRegion.$reset();
