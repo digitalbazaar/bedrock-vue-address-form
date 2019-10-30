@@ -3,9 +3,11 @@
     <div class="q-mt-md">
       <q-input
         v-model="value.streetAddress"
+        outlined
+        stack-label
+        hide-bottom-space
         :error="$v.value.streetAddress.$error"
         :label="streetAddressLabel"
-        class="q-pa-sm q-mt-md"
         autocomplete="address-line1"
         @blur="$v.value.streetAddress.$touch"
         @keyup="$v.value.streetAddress.$touch" />
@@ -16,9 +18,11 @@
       <div class="col-sm-8 q-pr-md address-locality">
         <q-input
           v-model="value.addressLocality"
+          outlined
+          stack-label
+          hide-bottom-space
           :error="$v.value.addressLocality.$error"
           :label="addressLocalityLabel"
-          class="q-pa-sm q-mt-md"
           autocomplete="address-level2"
           @blur="$v.value.addressLocality.$touch"
           @keyup="$v.value.addressLocality.$touch" />
@@ -26,9 +30,11 @@
       <div class="col-sm-4 postal-code">
         <q-input
           v-model="value.postalCode"
+          outlined
+          stack-label
+          hide-bottom-space
           :error="$v.value.postalCode.$error"
           :label="postalCodeLabel"
-          class="q-pa-sm q-mt-md"
           autocomplete="postal-code"
           @blur="$v.value.postalCode.$touch"
           @keyup="$v.value.postalCode.$touch" />
@@ -39,9 +45,11 @@
       class="q-mt-md address-locality">
       <q-input
         v-model="value.addressLocality"
+        outlined
+        stack-label
+        hide-bottom-space
         :error="$v.value.addressLocality.$error"
         :label="addressLocalityLabel"
-        class="q-pa-sm q-mt-md"
         autocomplete="address-level2"
         @blur="$v.value.addressLocality.$touch"
         @keyup="$v.value.addressLocality.$touch" />
@@ -53,19 +61,24 @@
         <q-select
           v-if="regions.length > 0"
           v-model="value.addressRegion"
+          outlined
+          stack-label
+          hide-bottom-space
           :error="$v.value.addressRegion.$error"
           :label="addressRegionLabel"
           :options="regions"
           emit-value
           map-options
-          class="q-pa-sm q-mt-md fast-open"
+          class="fast-open"
           @input="$v.value.addressRegion.$touch" />
         <q-input
           v-else
           v-model="value.addressRegion"
+          outlined
+          stack-label
+          hide-bottom-space
           :error="$v.value.addressRegion.$error"
           :label="addressRegionLabel"
-          class="q-pa-sm q-mt-md"
           autocomplete="address-level1"
           @blur="$v.value.addressRegion.$touch"
           @keyup="$v.value.addressRegion.$touch" />
@@ -74,6 +87,9 @@
         <q-select
           ref="countrySelector"
           v-model="value.addressCountry"
+          outlined
+          stack-label
+          hide-bottom-space
           :error="$v.value.addressCountry.$error"
           :label="addressCountryLabel"
           :options="countries"
@@ -81,7 +97,7 @@
           map-options
           use-input
           input-debounce="0"
-          class="q-pa-sm q-mt-md fast-open"
+          class="fast-open"
           @filter="filterCountries"
           @input="handleSelect">
           <template v-slot:no-option>
@@ -100,20 +116,25 @@
       <div class="col-sm-6 q-pr-md address-region">
         <q-select
           v-model="value.addressRegion"
+          outlined
+          stack-label
+          hide-bottom-space
           :error="$v.value.addressRegion.$error"
           :label="addressRegionLabel"
           :options="regions"
           emit-value
           map-options
-          class="q-pa-sm q-mt-md fast-open"
+          class="fast-open"
           @input="$v.value.addressRegion.$touch" />
       </div>
       <div class="col-sm-6 postal-code">
         <q-input
           v-model="value.postalCode"
+          outlined
+          stack-label
+          hide-bottom-space
           :error="$v.value.postalCode.$error"
           :label="postalCodeLabel"
-          class="q-pa-sm q-mt-md"
           autocomplete="postal-code"
           @blur="$v.value.postalCode.$touch"
           @keyup="$v.value.postalCode.$touch" />
@@ -312,7 +333,7 @@ export default {
       }
       return update(() => {
         this.filter.countries = val.toLowerCase();
-      });      
+      });
     },
     handleSelect() {
       // the default behavior in the beta is to leave the input focused on select.
