@@ -147,6 +147,11 @@ export default {
       type: Object,
       required: false,
       default: () => ([])
+    },
+    // you can pass in a custom validator
+    validator: {
+      type: Object,
+      required: false
     }
   },
   data() {
@@ -160,6 +165,11 @@ export default {
     this.filterInput().setAttribute('autocomplete', 'new-address');
   },
   validations() {
+    // if there is a custom validator use it.
+    if(this.validator) {
+      console.log('using a custom validator');
+      return this.validator;
+    }
     if(this.addressCountryExists) {
       return {
         value: {
