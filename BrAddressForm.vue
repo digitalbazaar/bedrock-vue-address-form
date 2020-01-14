@@ -162,7 +162,7 @@ export default {
     };
   },
   mounted() {
-    this.filterInput().setAttribute('autocomplete', 'new-address');
+    this.hideFilterInput();
     // users might need to have access to the validator.
     this.$emit('validator', {validator: this.$v});
   },
@@ -324,6 +324,11 @@ export default {
       }
       return this.$refs.countrySelector.$el.querySelector('input');
     },
+    hideFilterInput() {
+      this.filterInput().setAttribute('autocomplete', 'new-address');
+      this.filterInput().blur();
+      this.filterInput().style.display = 'none';
+    },
     async filterCountries(val, update) {
       this.filterInput().style.display = 'inline-block';
       this.filterInput().focus();
@@ -340,8 +345,7 @@ export default {
     handleSelect() {
       // the default behavior in the beta is to leave the input focused on select.
       this.filter.countries = '';
-      this.filterInput().blur();
-      this.filterInput().style.display = 'none';
+      this.hideFilterInput();
       this.$v.value.addressCountry.$touch();
       if(this.$v.value.addressRegion.$invalid && this.regions) {
         this.$v.value.addressRegion.$reset();
