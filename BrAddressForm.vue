@@ -163,11 +163,12 @@ export default {
   },
   mounted() {
     this.filterInput().setAttribute('autocomplete', 'new-address');
+    // users might need to have access to the validator.
+    this.$emit('validator', {validator: this.$v});
   },
   validations() {
     // if there is a custom validator use it.
     if(this.validator) {
-      console.log('using a custom validator');
       return this.validator;
     }
     if(this.addressCountryExists) {
