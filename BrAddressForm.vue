@@ -157,7 +157,7 @@ export default {
     };
   },
   mounted() {
-    this.filterInput.setAttribute('autocomplete', 'new-address');
+    this.filterInput().setAttribute('autocomplete', 'new-address');
   },
   validations() {
     if(this.addressCountryExists) {
@@ -297,18 +297,25 @@ export default {
     },
     valid() {
       return !this.$v.value.$invalid;
-    },
+    }
+  },
+  methods: {
+    /**
+     * filterInput is a method and not computed because it is
+     * not used in the template. Vue does not update computed
+     * properties not used in the template.
+     *
+     * @returns {object} An input object.
+    */
     filterInput() {
       if(!this.$refs.countrySelector) {
         return document.createElement('input');
       }
       return this.$refs.countrySelector.$el.querySelector('input');
-    }
-  },
-  methods: {
+    },
     async filterCountries(val, update) {
-      this.filterInput.style.display = 'inline-block';
-      this.filterInput.focus();
+      this.filterInput().style.display = 'inline-block';
+      this.filterInput().focus();
       this.$v.value.addressCountry.$reset();
       this.value.addressCountry = '';
       this.filter.countries = '';
@@ -322,8 +329,8 @@ export default {
     handleSelect() {
       // the default behavior in the beta is to leave the input focused on select.
       this.filter.countries = '';
-      this.filterInput.blur();
-      this.filterInput.style.display = 'none';
+      this.filterInput().blur();
+      this.filterInput().style.display = 'none';
       this.$v.value.addressCountry.$touch();
       if(this.$v.value.addressRegion.$invalid && this.regions) {
         this.$v.value.addressRegion.$reset();
