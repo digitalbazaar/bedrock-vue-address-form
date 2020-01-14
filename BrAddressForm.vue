@@ -299,6 +299,9 @@ export default {
       return !this.$v.value.$invalid;
     },
     filterInput() {
+      if(!this.$refs.countrySelector) {
+        return document.createElement('input');
+      }
       return this.$refs.countrySelector.$el.querySelector('input');
     }
   },
